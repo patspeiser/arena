@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "cross-env": "^5.2.0",
+    "express": "^4.16.3",
+    "react": "^16.5.2",
     "three": "^0.96.0"
   },
   "devDependencies": {
