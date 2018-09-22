@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "webpack --watch--config webpack.config.js"
+    "start:dev": "nodemon server.js",
+    "build": "webpack --watch --config webpack.config.js"
   },
   "author": "ps",
   "license": "ISC",

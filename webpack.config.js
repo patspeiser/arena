@@ -1,23 +1,16 @@
-const webpack = require('webpack');
-const path = require('path');
+const path 			= require('path');
+const webpack 		= require('webpack');
+const entryPath 	= path.join(__dirname, 'src');
+const outputPath 	= path.join(__dirname, 'dist');
+const filename   	= 'bundle.js';
 
 module.exports = {
-	mode: "development",
-	entry:'./src/index.js',
-	output: {
-		path: path.join(__dirname, 'dist'),
-		filename: 'bundle.js',
-	},
+	entry: entryPath,
 	watch: true,
-	devServer: {
-		watchOptions: {
-			poll: 1000,
-			aggregateTimeout: 300
-		},
+	output: {
+		path: outputPath,
+		filename: filename,
 	},
-	plugins: [
-		new webpack.WatchIgnorePlugin([
-			path.join(__dirname, "node_modules")
-		]),
-	],
 };
+
+console.log(module.exports);
