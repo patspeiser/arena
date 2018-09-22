@@ -1,4 +1,2 @@
-import test from './arena';
-
-
+import test from "./arena";
 test();

@@ -1,7 +1,3 @@
-module.exports = {
-	test: test
-}
-
-var test = function(){
-	return console.log('test fn');
+export default  function test(){
+	console.log('test fn', Date.now());
 };
