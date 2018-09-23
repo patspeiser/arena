@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "cross-env PORT=3000 nodemon server.js",
     "build": "webpack --watch --config webpack.config.js",
-    "test": "cross-env PORT=5000 nodemon node_modules/mocha/bin/mocha test/ --recursive"
+    "test:server": "cross-env PORT=5000 nodemon node_modules/mocha/bin/mocha test/server/ --recursive"
   },
   "author": "ps",
   "license": "ISC",

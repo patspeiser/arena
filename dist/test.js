@@ -90,10 +90,9 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _arena__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _build_arena_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 
-
-
+mocha.run();
 
 /***/ }),
 /* 1 */

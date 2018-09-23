@@ -1,0 +1,2 @@
+import Arena from './arena';
+

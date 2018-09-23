@@ -1,17 +1,31 @@
 const path 			= require('path');
 const webpack 		= require('webpack');
-const entryPath 	= path.join(__dirname, 'src');
-const outputPath 	= path.join(__dirname, 'dist');
 const filename   	= 'bundle.js';
 
-module.exports = {
+const inPath        = path.join(__dirname, 'src', 'build');
+const outPath       = path.join(__dirname, 'dist');
+const outName       = 'bundle.js';
+
+const inPathTest        = path.join(__dirname, 'src', 'test');
+const outPathTest       = path.join(__dirname, 'dist');
+const outNameTest       = 'test.js';
+
+module.exports = [{
 	mode: 'none',
-	entry: entryPath,
+	entry: inPath,
 	watch: true,
 	output: {
-		path: outputPath,
-		filename: filename,
+		path: outPath,
+		filename: outName,
 	},
-};
+}, {
+	mode: 'none',
+	entry: inPathTest,
+	watch: true,
+	output: {
+		path: outPathTest,
+		filename: outNameTest,
+	},
+}];
 
 console.log(module.exports);

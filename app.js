@@ -9,4 +9,7 @@ app.get('/', (err, res, next)=>{
 	res.sendFile('index.html', {root: './'});
 });
 
+app.get('/test', (err, res, next)=>{
+	res.sendFile('test.html', {root: './'});
+});
 module.exports = app;
