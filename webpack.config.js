@@ -5,6 +5,7 @@ const outputPath 	= path.join(__dirname, 'dist');
 const filename   	= 'bundle.js';
 
 module.exports = {
+	mode: 'none',
 	entry: entryPath,
 	watch: true,
 	output: {
