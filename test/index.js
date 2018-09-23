@@ -1,25 +1,18 @@
-const server = require('./server');
-const client = require('./client');
+const assert  = require('assert');
+const http    = require('http');
 
-const tests =  [
-	server,
-	client
-	//..
-]
-
-function runSuite(tests){
-	this.tests = tests;
-	for (let i = 0; i < this.tests.length; i++){
-		this.test = this.tests[i];
-		try {
-			console.log('in try');
-			this.test.run();
-		} catch (e){
-			console.log('error', e);
-		}
-	}
-}
+describe("Server", ()=>{
+	let server = require('../server');
+	
+	describe('/', ()=>{
+		it('should get 200', (done)=>{
+			http.get('http://localhost:3000/', (res)=>{
+				assert.equal(200, res.statusCode);
+				done();
+			});
+		});
+	});
+});
 
 module.exports = {};
 
-runSuite(tests);
