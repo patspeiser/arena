@@ -1,5 +1,5 @@
-export default  function test(){
-	console.log('arena.js', Date.now());
-	console.log(THREE);
-};
+class Arena {
+	constructor(){console.log("#arena")};
+}
 
+export default Arena;

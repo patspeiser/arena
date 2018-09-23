@@ -91,10 +91,13 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _arena__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _test__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
-Object(_arena__WEBPACK_IMPORTED_MODULE_0__["default"])();
 
 
+console.log(_arena__WEBPACK_IMPORTED_MODULE_0__["default"]);
+console.log(_test__WEBPACK_IMPORTED_MODULE_1__["default"]);
+new _test__WEBPACK_IMPORTED_MODULE_1__["default"]();
 
 /***/ }),
 /* 1 */
@@ -102,13 +105,28 @@ Object(_arena__WEBPACK_IMPORTED_MODULE_0__["default"])();
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return test; });
-function test(){
-	console.log('arena.js', Date.now());
-	console.log(THREE);
+class Arena {
+	constructor(){console.log("#arena")};
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Arena);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Test {
+	constructor(){
+		mocha.setup({
+			ui: 'tdd'
+		});
+		mocha.run();
+	};
 };
 
-
+/* harmony default export */ __webpack_exports__["default"] = (Test);
 
 /***/ })
 /******/ ]);
