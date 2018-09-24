@@ -1,8 +1,4 @@
-class Arena {
-	constructor(){};
-	init(){
-		return;;
-	};
-}
-
-export default Arena;
+export class Arena {
+	constructor(){console.log('arena constructor')};
+	testFn(){console.log('testfn')};
+};

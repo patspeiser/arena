@@ -9,6 +9,7 @@ const outName       = 'bundle.js';
 const inPathTest        = path.join(__dirname, 'src', 'test');
 const outPathTest       = path.join(__dirname, 'dist');
 const outNameTest       = 'test.js';
+const nodeModulesPath   = path.join(__dirname, 'node_modules');
 
 module.exports = [{
 	mode: 'none',
@@ -26,7 +27,14 @@ module.exports = [{
 		path: 		outPathTest,
 		filename: 	outNameTest,
 	},
-	target: 'node'
+	/*target: 'node',
+	module: {
+		rules: [ {
+				use: 'mocha-loader',
+				exclude: '/node_modules/' 
+			}
+		]
+	}*/
 }];
 
 console.log(module.exports);

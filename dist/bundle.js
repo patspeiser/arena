@@ -101,14 +101,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Arena", function() { return Arena; });
 class Arena {
-	constructor(){};
-	init(){
-		return;;
-	};
-}
+	constructor(){console.log('arena constructor')};
+	testFn(){console.log('testfn')};
+};
 
-/* harmony default export */ __webpack_exports__["default"] = (Arena);
 
 /***/ })
 /******/ ]);

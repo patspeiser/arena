@@ -1,3 +1,5 @@
+"use strict";
+
 const path = require('path');
 const app  = require('./app');
 const http = require('http');
@@ -16,6 +18,6 @@ const server = function(){
 module.exports = server;
 
 server()
-	.then( (server)=>{
-		//	
-	});
+.then( (server)=>{
+			//	
+		});
