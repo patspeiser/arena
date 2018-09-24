@@ -103,7 +103,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 class Arena {
 	constructor(){};
-	init(){};
+	init(){
+		return;;
+	};
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Arena);

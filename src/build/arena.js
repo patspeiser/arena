@@ -1,6 +1,8 @@
 class Arena {
 	constructor(){};
-	init(){};
+	init(){
+		return;;
+	};
 }
 
 export default Arena;

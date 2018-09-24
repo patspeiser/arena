@@ -23,9 +23,10 @@ module.exports = [{
 	entry: inPathTest,
 	watch: true,
 	output: {
-		path: outPathTest,
-		filename: outNameTest,
+		path: 		outPathTest,
+		filename: 	outNameTest,
 	},
+	target: 'node'
 }];
 
 console.log(module.exports);
