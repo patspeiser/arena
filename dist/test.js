@@ -106,8 +106,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-console.log(new _build_arena__WEBPACK_IMPORTED_MODULE_0__["Arena"]());
-
+describe('Arena', ()=>{
+	var arena = new _build_arena__WEBPACK_IMPORTED_MODULE_0__["default"]();
+	it('should be defined', ()=>{
+		assert__WEBPACK_IMPORTED_MODULE_1__(typeof _build_arena__WEBPACK_IMPORTED_MODULE_0__["default"] !== 'undefined');
+	});
+	it('should construct arena object', ()=>{
+		var arena = new _build_arena__WEBPACK_IMPORTED_MODULE_0__["default"]();
+		assert__WEBPACK_IMPORTED_MODULE_1__(arena instanceof(_build_arena__WEBPACK_IMPORTED_MODULE_0__["default"]));
+	});
+})
 
 /***/ }),
 /* 2 */
@@ -115,10 +123,43 @@ console.log(new _build_arena__WEBPACK_IMPORTED_MODULE_0__["Arena"]());
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Arena", function() { return Arena; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Arena; });
 class Arena {
 	constructor(){console.log('arena constructor')};
-	testFn(){console.log('testfn')};
+	setScene(){
+		// Set the scene size.
+		const WIDTH = 400;
+		const HEIGHT = 300;
+
+		// Set some camera attributes.
+		const VIEW_ANGLE = 45;
+		const ASPECT = WIDTH / HEIGHT;
+		const NEAR = 0.1;
+		const FAR = 10000;
+		const container = document.body;
+		// Create a WebGL renderer, camera
+		// and a scene
+		const renderer = new THREE.WebGLRenderer();
+		const camera =
+		new THREE.PerspectiveCamera(
+			VIEW_ANGLE,
+			ASPECT,
+			NEAR,
+			FAR
+		);
+
+		const scene = new THREE.Scene();
+
+		// Add the camera to the scene.
+		scene.add(camera);
+
+		// Start the renderer.
+		renderer.setSize(WIDTH, HEIGHT);
+
+		// Attach the renderer-supplied
+		// DOM element.
+		container.appendChild(renderer.domElement);
+	}
 };
 
 
