@@ -1,5 +1,7 @@
+import * as THREE from 'three';
+
 export default class Arena {
-	constructor(){console.log('arena constructor')};
+	constructor(){};
 	setScene(){
 		// Set the scene size.
 		const WIDTH = 400;
@@ -10,7 +12,7 @@ export default class Arena {
 		const ASPECT = WIDTH / HEIGHT;
 		const NEAR = 0.1;
 		const FAR = 10000;
-		const container = document.body;
+		const container = document.getElementById('arena');
 		// Create a WebGL renderer, camera
 		// and a scene
 		const renderer = new THREE.WebGLRenderer();
@@ -32,6 +34,9 @@ export default class Arena {
 
 		// Attach the renderer-supplied
 		// DOM element.
-		container.appendChild(renderer.domElement);
+		if(container){
+			container.appendChild(renderer.domElement);
+		};
+		return true;
 	}
 };
