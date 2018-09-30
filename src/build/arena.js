@@ -1,42 +1,76 @@
 import * as THREE from 'three';
 
 export default class Arena {
-	constructor(){};
+	constructor(){
+		this.container;
+		this.scene;
+		this.camera;
+		this.light;
+		this.WIDTH = 1000;
+		this.HEIGHT = 800;
+		this.renderer;
+		this.window = window;
+	};
 	setScene(){
-		// Set the scene size.
-		const WIDTH = 400;
-		const HEIGHT = 300;
+		//add the camera
+		this.scene 		= new THREE.Scene();
+		this.container 	= this.initContainer();
+		this.light 		= this.initLight();
+		this.camera 	= this.initCamera();
+		this.renderer 	= this.initRenderer();
+		this.cube       = this.initCubeOfDreams();
 
-		// Set some camera attributes.
-		const VIEW_ANGLE = 45;
-		const ASPECT = WIDTH / HEIGHT;
-		const NEAR = 0.1;
-		const FAR = 10000;
-		const container = document.getElementById('arena');
-		// Create a WebGL renderer, camera
-		// and a scene
-		const renderer = new THREE.WebGLRenderer();
-		const camera =
-		new THREE.PerspectiveCamera(
-			VIEW_ANGLE,
-			ASPECT,
-			NEAR,
-			FAR
-		);
-
-		const scene = new THREE.Scene();
-
-		// Add the camera to the scene.
-		scene.add(camera);
-
-		// Start the renderer.
-		renderer.setSize(WIDTH, HEIGHT);
-
-		// Attach the renderer-supplied
-		// DOM element.
-		if(container){
-			container.appendChild(renderer.domElement);
+		this.scene.add(this.camera);
+		this.scene.add(this.light);
+		this.scene.add(this.cube);
+		if(this.container){
+			this.container.appendChild(this.renderer.domElement);
 		};
-		return true;
-	}
+		return this.scene;
+	};	
+	addElementsToScene(elements){
+		this.elements = elements;
+		if(this.elements){
+			for(let i = 0; i<this.elements.length; i++){
+				this.scene.add(this.elements[i]);
+			}
+		}
+		return this.scene;
+	};
+	initContainer(){
+		this.container = document.getElementById('arena');
+		return this.container;
+	};
+	initRenderer(){
+		console.log(this.camera);
+		this.renderer = new THREE.WebGLRenderer();
+		this.renderer.setSize(this.WIDTH, this.HEIGHT);
+		return this.renderer;
+	};
+	initCamera(){
+		// Set some camera attributes.
+		this.VIEW_ANGLE = 45;
+		this.ASPECT = this.WIDTH / this.HEIGHT;
+		this.NEAR = 0.1;
+		this.FAR = 10000;
+		this.camera = new THREE.PerspectiveCamera(this.VIEW_ANGLE, this.ASPECT, this.NEAR, this.FAR);
+		this.camera.position.z = 5;
+		return this.camera;
+	};
+	initLight(){
+		this.light = new THREE.Light({intensity: 1});
+		return this.light;	
+	};
+	initCubeOfDreams(){
+		this.shape 		= new THREE.BoxGeometry(1,1,1);
+		this.material 	= new THREE.MeshBasicMaterial({color: 0xff00f0 });
+		this.cube 		= new THREE.Mesh(this.shape, this.material);
+		return this.cube;	
+	};
+	rotateCubeOfDreams(){
+		this.cube.rotation.x += .01;
+		this.cube.rotation.y += .01;
+		this.cube.rotation.z += .01;
+	};
+	
 };
