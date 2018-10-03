@@ -111,16 +111,19 @@ animate();
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Arena; });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1__);
 
 
 class Arena {
 	constructor(){
+		this.WIDTH = 1000;
+		this.HEIGHT = 800;
 		this.container;
 		this.scene;
 		this.camera;
 		this.light;
-		this.WIDTH = 1000;
-		this.HEIGHT = 800;
+		this.controls;
 		this.renderer;
 		this.window = window;
 	};
@@ -132,7 +135,7 @@ class Arena {
 		this.camera 	= this.initCamera();
 		this.renderer 	= this.initRenderer();
 		this.cube       = this.initCubeOfDreams();
-
+		this.controls   = this.initControls();
 		this.scene.add(this.camera);
 		this.scene.add(this.light);
 		this.scene.add(this.cube);
@@ -167,7 +170,7 @@ class Arena {
 		this.NEAR = 0.1;
 		this.FAR = 10000;
 		this.camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](this.VIEW_ANGLE, this.ASPECT, this.NEAR, this.FAR);
-		this.camera.position.z = 5;
+		this.camera.position.set(0, 20, 100);
 		return this.camera;
 	};
 	initLight(){
@@ -184,6 +187,10 @@ class Arena {
 		this.cube.rotation.x += .01;
 		this.cube.rotation.y += .01;
 		this.cube.rotation.z += .01;
+	};
+	initControls(){
+		console.log(three__WEBPACK_IMPORTED_MODULE_0__);
+		this.controls = new threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1___default.a(this.camera);
 	};
 	
 };
@@ -47847,6 +47854,92 @@ function LensFlare() {
 }
 
 
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * @author mrdoob / http://mrdoob.com/
+ */
+
+(function (root, factory) {
+  if (true) {
+    // CommonJS
+    module.exports = factory();
+  } else {}
+}(this, function () {
+  'use strict';
+
+  var PointerLockControls = function (camera) {
+
+    var scope = this;
+
+    camera.rotation.set(0, 0, 0);
+
+    var pitchObject = new THREE.Object3D();
+    pitchObject.add(camera);
+
+    var yawObject = new THREE.Object3D();
+    yawObject.position.y = 10;
+    yawObject.add(pitchObject);
+
+    var PI_2 = Math.PI / 2;
+
+    var onMouseMove = function (event) {
+
+      if (scope.enabled === false) return;
+
+      var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+      var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+      yawObject.rotation.y -= movementX * 0.002;
+      pitchObject.rotation.x -= movementY * 0.002;
+
+      pitchObject.rotation.x = Math.max(- PI_2, Math.min(PI_2, pitchObject.rotation.x));
+
+    };
+
+    this.dispose = function () {
+
+      document.removeEventListener('mousemove', onMouseMove, false);
+
+    };
+
+    document.addEventListener('mousemove', onMouseMove, false);
+
+    this.enabled = false;
+
+    this.getObject = function () {
+
+      return yawObject;
+
+    };
+
+    this.getDirection = function () {
+
+      // assumes the camera itself is not rotated
+
+      var direction = new THREE.Vector3(0, 0, - 1);
+      var rotation = new THREE.Euler(0, 0, 0, "YXZ");
+
+      return function (v) {
+
+        rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
+
+        v.copy(direction).applyEuler(rotation);
+
+        return v;
+
+      };
+
+    }();
+
+  };
+
+  return PointerLockControls;
+}));
 
 
 /***/ })

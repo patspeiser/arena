@@ -1,13 +1,14 @@
 import * as THREE from 'three';
-
+import PointerLockControls from 'threejs-controls/PointerLockControls';
 export default class Arena {
 	constructor(){
+		this.WIDTH = 1000;
+		this.HEIGHT = 800;
 		this.container;
 		this.scene;
 		this.camera;
 		this.light;
-		this.WIDTH = 1000;
-		this.HEIGHT = 800;
+		this.controls;
 		this.renderer;
 		this.window = window;
 	};
@@ -19,7 +20,7 @@ export default class Arena {
 		this.camera 	= this.initCamera();
 		this.renderer 	= this.initRenderer();
 		this.cube       = this.initCubeOfDreams();
-
+		this.controls   = this.initControls();
 		this.scene.add(this.camera);
 		this.scene.add(this.light);
 		this.scene.add(this.cube);
@@ -54,7 +55,7 @@ export default class Arena {
 		this.NEAR = 0.1;
 		this.FAR = 10000;
 		this.camera = new THREE.PerspectiveCamera(this.VIEW_ANGLE, this.ASPECT, this.NEAR, this.FAR);
-		this.camera.position.z = 5;
+		this.camera.position.set(0, 20, 100);
 		return this.camera;
 	};
 	initLight(){
@@ -71,6 +72,10 @@ export default class Arena {
 		this.cube.rotation.x += .01;
 		this.cube.rotation.y += .01;
 		this.cube.rotation.z += .01;
+	};
+	initControls(){
+		console.log(THREE);
+		this.controls = new PointerLockControls(this.camera);
 	};
 	
 };

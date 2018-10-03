@@ -1,15 +1,18 @@
 const path 			= require('path');
 const webpack 		= require('webpack');
-const filename   	= 'bundle.js';
 
+//app
 const inPath        = path.join(__dirname, 'src', 'build');
 const outPath       = path.join(__dirname, 'dist');
 const outName       = 'bundle.js';
 
+//vendors
+const vendorInPath   = path.join(__dirname, 'src', 'vendor');
+const vendorOutName  = 'vendor.bundle.js';
+
+//tests
 const inPathTest        = path.join(__dirname, 'src', 'test');
-const outPathTest       = path.join(__dirname, 'dist');
 const outNameTest       = 'test.js';
-const nodeModulesPath   = path.join(__dirname, 'node_modules');
 
 module.exports = [{
 	mode: 'none',
@@ -24,17 +27,19 @@ module.exports = [{
 	entry: inPathTest,
 	watch: true,
 	output: {
-		path: 		outPathTest,
+		path: 		outPath,
 		filename: 	outNameTest,
-	},
-	/*target: 'node',
-	module: {
-		rules: [ {
-				use: 'mocha-loader',
-				exclude: '/node_modules/' 
-			}
-		]
-	}*/
-}];
+	}
+}, 
+/*
+{
+	mode: 'none',
+	entry: vendorInPath, 
+	watch: true,
+	output: {
+		path: outPath,
+		filename: vendorOutName
+	}
+}*/];
 
 console.log(module.exports);
