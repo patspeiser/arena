@@ -29,17 +29,15 @@ module.exports = [{
 	output: {
 		path: 		outPath,
 		filename: 	outNameTest,
-	}
-}, 
-/*
-{
+	},
+}, {
 	mode: 'none',
 	entry: vendorInPath, 
 	watch: true,
 	output: {
 		path: outPath,
 		filename: vendorOutName
-	}
-}*/];
+	},
+}];
 
 console.log(module.exports);

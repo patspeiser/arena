@@ -9,6 +9,7 @@ export default class Arena {
 		this.camera;
 		this.light;
 		this.controls;
+		this.instructions;
 		this.renderer;
 		this.window = window;
 	};
@@ -45,7 +46,7 @@ export default class Arena {
 	initRenderer(){
 		console.log(this.camera);
 		this.renderer = new THREE.WebGLRenderer();
-		this.renderer.setSize(this.WIDTH, this.HEIGHT);
+		this.renderer.setSize( this.window.innerWidth, this.window.innerHeight );
 		return this.renderer;
 	};
 	initCamera(){
@@ -74,8 +75,61 @@ export default class Arena {
 		this.cube.rotation.z += .01;
 	};
 	initControls(){
-		console.log(THREE);
-		this.controls = new PointerLockControls(this.camera);
+		this.instructions 	= document.getElementById('instructions');
+		this.arena          = document.getElementById('arena');
+		this.controls 		= new PointerLockControls(this.camera);
+
+		this.instructions.addEventListener('click', (event)=>{
+			this.instructions.style.display = 'none';
+		}, false);
+
+		this.onKeyDown = function ( event ) {
+			switch ( event.keyCode ) {
+				case 38: // up
+				case 87: // w
+					moveForward = true;
+					break;
+				case 37: // left
+				case 65: // a
+					moveLeft = true; break;
+				case 40: // down
+				case 83: // s
+					moveBackward = true;
+					break;
+				case 39: // right
+				case 68: // d
+					moveRight = true;
+					break;
+				case 32: // space
+					if ( canJump === true ) velocity.y += 350;
+					canJump = false;
+					break;
+			}
+		};
+		this.onKeyUp = function ( event ) {
+			switch( event.keyCode ) {
+				case 38: // up
+				case 87: // w
+					moveForward = false;
+					break;
+				case 37: // left
+				case 65: // a
+					moveLeft = false;
+					break;
+				case 40: // down
+				case 83: // s
+					moveBackward = false;
+					break;
+				case 39: // right
+				case 68: // d
+					moveRight = false;
+					break;
+			}
+		};
+		document.addEventListener( 'keydown', this.onKeyDown, false );
+		document.addEventListener( 'keyup', this.onKeyUp, false );
+		this.scene.add(this.controls.getObject());
+		return this.controls;
 	};
 	
 };

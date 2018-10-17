@@ -101,7 +101,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _build_arena__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
 /* harmony import */ var assert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(assert__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -139,7 +139,7 @@ test.run();
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Arena; });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
 /* harmony import */ var threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -152,6 +152,7 @@ class Arena {
 		this.camera;
 		this.light;
 		this.controls;
+		this.instructions;
 		this.renderer;
 		this.window = window;
 	};
@@ -188,7 +189,7 @@ class Arena {
 	initRenderer(){
 		console.log(this.camera);
 		this.renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]();
-		this.renderer.setSize(this.WIDTH, this.HEIGHT);
+		this.renderer.setSize( this.window.innerWidth, this.window.innerHeight );
 		return this.renderer;
 	};
 	initCamera(){
@@ -217,8 +218,61 @@ class Arena {
 		this.cube.rotation.z += .01;
 	};
 	initControls(){
-		console.log(three__WEBPACK_IMPORTED_MODULE_0__);
-		this.controls = new threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1___default.a(this.camera);
+		this.instructions 	= document.getElementById('instructions');
+		this.arena          = document.getElementById('arena');
+		this.controls 		= new threejs_controls_PointerLockControls__WEBPACK_IMPORTED_MODULE_1___default.a(this.camera);
+
+		this.instructions.addEventListener('click', (event)=>{
+			this.instructions.style.display = 'none';
+		}, false);
+
+		this.onKeyDown = function ( event ) {
+			switch ( event.keyCode ) {
+				case 38: // up
+				case 87: // w
+					moveForward = true;
+					break;
+				case 37: // left
+				case 65: // a
+					moveLeft = true; break;
+				case 40: // down
+				case 83: // s
+					moveBackward = true;
+					break;
+				case 39: // right
+				case 68: // d
+					moveRight = true;
+					break;
+				case 32: // space
+					if ( canJump === true ) velocity.y += 350;
+					canJump = false;
+					break;
+			}
+		};
+		this.onKeyUp = function ( event ) {
+			switch( event.keyCode ) {
+				case 38: // up
+				case 87: // w
+					moveForward = false;
+					break;
+				case 37: // left
+				case 65: // a
+					moveLeft = false;
+					break;
+				case 40: // down
+				case 83: // s
+					moveBackward = false;
+					break;
+				case 39: // right
+				case 68: // d
+					moveRight = false;
+					break;
+			}
+		};
+		document.addEventListener( 'keydown', this.onKeyDown, false );
+		document.addEventListener( 'keyup', this.onKeyUp, false );
+		this.scene.add(this.controls.getObject());
+		return this.controls;
 	};
 	
 };
@@ -47888,92 +47942,6 @@ function LensFlare() {
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * @author mrdoob / http://mrdoob.com/
- */
-
-(function (root, factory) {
-  if (true) {
-    // CommonJS
-    module.exports = factory();
-  } else {}
-}(this, function () {
-  'use strict';
-
-  var PointerLockControls = function (camera) {
-
-    var scope = this;
-
-    camera.rotation.set(0, 0, 0);
-
-    var pitchObject = new THREE.Object3D();
-    pitchObject.add(camera);
-
-    var yawObject = new THREE.Object3D();
-    yawObject.position.y = 10;
-    yawObject.add(pitchObject);
-
-    var PI_2 = Math.PI / 2;
-
-    var onMouseMove = function (event) {
-
-      if (scope.enabled === false) return;
-
-      var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-      var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-
-      yawObject.rotation.y -= movementX * 0.002;
-      pitchObject.rotation.x -= movementY * 0.002;
-
-      pitchObject.rotation.x = Math.max(- PI_2, Math.min(PI_2, pitchObject.rotation.x));
-
-    };
-
-    this.dispose = function () {
-
-      document.removeEventListener('mousemove', onMouseMove, false);
-
-    };
-
-    document.addEventListener('mousemove', onMouseMove, false);
-
-    this.enabled = false;
-
-    this.getObject = function () {
-
-      return yawObject;
-
-    };
-
-    this.getDirection = function () {
-
-      // assumes the camera itself is not rotated
-
-      var direction = new THREE.Vector3(0, 0, - 1);
-      var rotation = new THREE.Euler(0, 0, 0, "YXZ");
-
-      return function (v) {
-
-        rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
-
-        v.copy(direction).applyEuler(rotation);
-
-        return v;
-
-      };
-
-    }();
-
-  };
-
-  return PointerLockControls;
-}));
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
@@ -48043,7 +48011,7 @@ function isBuffer(b) {
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-var util = __webpack_require__(7);
+var util = __webpack_require__(6);
 var hasOwn = Object.prototype.hasOwnProperty;
 var pSlice = Array.prototype.slice;
 var functionsHaveNames = (function () {
@@ -48466,10 +48434,10 @@ var objectKeys = Object.keys || function (obj) {
   return keys;
 };
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5)))
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 var g;
@@ -48495,7 +48463,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -49023,7 +48991,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = __webpack_require__(9);
+exports.isBuffer = __webpack_require__(8);
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -49067,7 +49035,7 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = __webpack_require__(10);
+exports.inherits = __webpack_require__(9);
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
@@ -49085,10 +49053,10 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(6), __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(7)))
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -49278,7 +49246,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = function isBuffer(arg) {
@@ -49289,7 +49257,7 @@ module.exports = function isBuffer(arg) {
 }
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -49315,6 +49283,92 @@ if (typeof Object.create === 'function') {
     ctor.prototype.constructor = ctor
   }
 }
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * @author mrdoob / http://mrdoob.com/
+ */
+
+(function (root, factory) {
+  if (true) {
+    // CommonJS
+    module.exports = factory();
+  } else {}
+}(this, function () {
+  'use strict';
+
+  var PointerLockControls = function (camera) {
+
+    var scope = this;
+
+    camera.rotation.set(0, 0, 0);
+
+    var pitchObject = new THREE.Object3D();
+    pitchObject.add(camera);
+
+    var yawObject = new THREE.Object3D();
+    yawObject.position.y = 10;
+    yawObject.add(pitchObject);
+
+    var PI_2 = Math.PI / 2;
+
+    var onMouseMove = function (event) {
+
+      if (scope.enabled === false) return;
+
+      var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+      var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+      yawObject.rotation.y -= movementX * 0.002;
+      pitchObject.rotation.x -= movementY * 0.002;
+
+      pitchObject.rotation.x = Math.max(- PI_2, Math.min(PI_2, pitchObject.rotation.x));
+
+    };
+
+    this.dispose = function () {
+
+      document.removeEventListener('mousemove', onMouseMove, false);
+
+    };
+
+    document.addEventListener('mousemove', onMouseMove, false);
+
+    this.enabled = false;
+
+    this.getObject = function () {
+
+      return yawObject;
+
+    };
+
+    this.getDirection = function () {
+
+      // assumes the camera itself is not rotated
+
+      var direction = new THREE.Vector3(0, 0, - 1);
+      var rotation = new THREE.Euler(0, 0, 0, "YXZ");
+
+      return function (v) {
+
+        rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
+
+        v.copy(direction).applyEuler(rotation);
+
+        return v;
+
+      };
+
+    }();
+
+  };
+
+  return PointerLockControls;
+}));
 
 
 /***/ })
