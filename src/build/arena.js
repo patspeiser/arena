@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-import PointerLockControls from 'threejs-controls/PointerLockControls';
 export default class Arena {
 	constructor(){
 		this.WIDTH = 1000;
@@ -12,6 +10,16 @@ export default class Arena {
 		this.instructions;
 		this.renderer;
 		this.window = window;
+
+		//bad spot
+		this.prevTime 		= performance.now();
+		this.direction 		= new THREE.Vector3();
+		this.velocity = new THREE.Vector3();
+		this.moveBackward 	= false;
+		this.moveForward 	= false;
+		this.moveLeft 		= false;
+		this.moveRight 		= false;
+		this.canJump        = false;
 	};
 	setScene(){
 		//add the camera
@@ -77,32 +85,37 @@ export default class Arena {
 	initControls(){
 		this.instructions 	= document.getElementById('instructions');
 		this.arena          = document.getElementById('arena');
-		this.controls 		= new PointerLockControls(this.camera);
-
-		this.instructions.addEventListener('click', (event)=>{
+		this.controls 		= new THREE.PointerLockControls(this.camera);
+		
+		//gotta abstract out and return to display block again
+		document.addEventListener('pointerlockchange', (event)=>{
 			this.instructions.style.display = 'none';
-		}, false);
-
+		});
+		this.instructions.addEventListener( 'click', (event)=>{
+			this.arena.requestPointerLock();
+		}, false );
+		
 		this.onKeyDown = function ( event ) {
 			switch ( event.keyCode ) {
 				case 38: // up
 				case 87: // w
-					moveForward = true;
+					this.moveForward 	= true;
 					break;
 				case 37: // left
 				case 65: // a
-					moveLeft = true; break;
+					this.moveLeft 	 	= true; 
+					break;
 				case 40: // down
 				case 83: // s
-					moveBackward = true;
+					this.moveBackward 	= true;
 					break;
 				case 39: // right
 				case 68: // d
-					moveRight = true;
+					this.moveRight 		= true;
 					break;
 				case 32: // space
-					if ( canJump === true ) velocity.y += 350;
-					canJump = false;
+					if ( this.canJump === true ) this.velocity.y += 350;
+					this.canJump = false;
 					break;
 			}
 		};
@@ -110,24 +123,24 @@ export default class Arena {
 			switch( event.keyCode ) {
 				case 38: // up
 				case 87: // w
-					moveForward = false;
+					this.moveForward = false;
 					break;
 				case 37: // left
 				case 65: // a
-					moveLeft = false;
+					this.moveLeft = false;
 					break;
 				case 40: // down
 				case 83: // s
-					moveBackward = false;
+					this.moveBackward = false;
 					break;
 				case 39: // right
 				case 68: // d
-					moveRight = false;
+					this.moveRight = false;
 					break;
 			}
 		};
 		document.addEventListener( 'keydown', this.onKeyDown, false );
-		document.addEventListener( 'keyup', this.onKeyUp, false );
+		document.addEventListener( 'keyup',   this.onKeyUp,   false );
 		this.scene.add(this.controls.getObject());
 		return this.controls;
 	};
